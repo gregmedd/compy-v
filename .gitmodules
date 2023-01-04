@@ -1,0 +1,9 @@
+[submodule "core-v"]
+	path = core-v
+	url = git@github.com:gregmedd/compy-core-v.git
+[submodule "boot-rom"]
+	path = boot-rom
+	url = git@github.com:gregmedd/compy-boot-rom.git
+[submodule "peripherals/serial"]
+	path = peripherals/serial
+	url = git@github.com:gregmedd/compy-peripheral-serial.git
