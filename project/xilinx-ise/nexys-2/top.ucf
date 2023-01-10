@@ -1,0 +1,3 @@
+NET "clkin_50" LOC = "B8";
+NET "console_uart_tx" LOC = "P9";
+NET "console_uart_rx" LOC = "U6";
