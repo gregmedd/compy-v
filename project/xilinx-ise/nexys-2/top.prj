@@ -1,1 +1,2 @@
+vhdl work "../../../peripherals/serial/transmitter.vhd"
 vhdl work "top.vhd"

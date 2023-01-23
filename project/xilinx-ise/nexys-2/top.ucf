@@ -1,3 +1,12 @@
 NET "clkin_50" LOC = "B8";
 NET "console_uart_tx" LOC = "P9";
-NET "console_uart_rx" LOC = "U6";
+#NET "console_uart_rx" LOC = "U6";
+NET "console_uart_rx" LOC = "G18";
+NET "leds<0>" LOC = "J14";
+NET "leds<1>" LOC = "J15";
+NET "leds<2>" LOC = "K15";
+NET "leds<3>" LOC = "K14";
+NET "leds<4>" LOC = "E17";
+NET "leds<5>" LOC = "P15";
+NET "leds<6>" LOC = "F4";
+NET "leds<7>" LOC = "R4";
