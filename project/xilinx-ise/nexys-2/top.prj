@@ -1,2 +1,4 @@
 vhdl work "../../../peripherals/serial/transmitter.vhd"
+vhdl work "../../../peripherals/serial/receiver.vhd"
+vhdl work "../../../peripherals/serial/bitrate_decoder.vhd"
 vhdl work "top.vhd"

@@ -87,6 +87,29 @@ architecture Behavioral of top is
         );
     END COMPONENT;
 	 
+	 COMPONENT receiver
+	 PORT(
+         clk : IN  std_logic;
+         clk_div : IN  std_logic_vector(18 downto 0);
+         rx_enable : IN std_logic;
+         parity : IN  std_logic_vector(1 downto 0);
+         two_stop : IN  std_logic;
+         eight_data : IN  std_logic;
+         rxdata : IN std_logic;
+         data : OUT std_logic_vector(7 downto 0);
+         parity_good : OUT std_logic;
+         rxidle : out std_logic;
+         rxdone : out std_logic
+        );
+    END COMPONENT;
+
+	component bitrate_decoder is
+    Port ( clk_div : out  STD_LOGIC_VECTOR (18 downto 0);
+           rate_valid : out  STD_LOGIC;
+           bitrate : in  STD_LOGIC_VECTOR (10 downto 0));
+    end component;
+	 signal rate_valid : std_logic;
+	 
 	 type sysstate is (
 		prepare,
 		request_tx,
@@ -96,17 +119,29 @@ architecture Behavioral of top is
 	signal state : sysstate := prepare;
 	 
 	 --constant clk_div : std_logic_vector(18 downto 0) := "0000000000110110010";	-- 57600
-	 constant clk_div : std_logic_vector(18 downto 0) := "0000000101000101100";	--  9600
+	 --constant clk_div : std_logic_vector(18 downto 0) := "0000000101000101100";	--  9600
+	 --constant bitrate : std_logic_vector(10 downto 0) := "01001000000"; -- 57600
+	 constant bitrate : std_logic_vector(10 downto 0) := "10100000000"; -- 128000
+	 signal clk_div : std_logic_vector(18 downto 0);
 	 constant parity : std_logic_vector(1 downto 0) := "00";
 	 constant two_stop : std_logic := '0';
 	 constant eight_data : std_logic := '1';
 	 signal data : std_logic_vector(7 downto 0) := "00000000";
 	 signal txready : std_logic := '0';
 	 signal txstart : std_logic := '0';
+     signal txdata : std_logic := '0';
+     
+     signal rx_enable : std_logic := '1';
 	 
 	 signal charcount : std_logic_vector(3 downto 0) := "1111";
 
 begin
+
+	bitratedec: bitrate_decoder PORT MAP (
+			  clk_div => clk_div,
+			  rate_valid => rate_valid,
+			  bitrate => bitrate
+	    );
 
    txunit: transmitter PORT MAP (
           clk => clkin_50,
@@ -115,10 +150,25 @@ begin
           two_stop => two_stop,
           eight_data => eight_data,
           data => data,
-          txdata => console_uart_tx,
+          txdata => txdata,
           txready => txready,
           txstart => txstart
         );
+
+   rxunit: receiver PORT MAP (
+          clk => clkin_50,
+          clk_div => clk_div,
+          rx_enable => rx_enable,
+          parity => parity,
+          two_stop => two_stop,
+          eight_data => eight_data,
+          --data => data,
+          rxdata => txdata--,
+          --txready => txready,
+          --txstart => txstart
+        );
+        
+    console_uart_tx <= txdata;
 		  
 	leds(7 downto 4) <= "0000";
 	leds(3 downto 0) <= charcount;
