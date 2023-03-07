@@ -121,7 +121,8 @@ architecture Behavioral of top is
 	 --constant clk_div : std_logic_vector(18 downto 0) := "0000000000110110010";	-- 57600
 	 --constant clk_div : std_logic_vector(18 downto 0) := "0000000101000101100";	--  9600
 	 --constant bitrate : std_logic_vector(10 downto 0) := "01001000000"; -- 57600
-	 constant bitrate : std_logic_vector(10 downto 0) := "10100000000"; -- 128000
+	 --constant bitrate : std_logic_vector(10 downto 0) := "10100000000"; -- 128000
+	 constant bitrate : std_logic_vector(10 downto 0) := "00001100000"; -- 9600
 	 signal clk_div : std_logic_vector(18 downto 0);
 	 constant parity : std_logic_vector(1 downto 0) := "00";
 	 constant two_stop : std_logic := '0';
